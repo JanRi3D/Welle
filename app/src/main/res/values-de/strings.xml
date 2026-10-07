@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="cancel">Abbrechen</string>
+    <string name="view">Anzeigen</string>
+    <string name="all">Alle</string>
+    <string name="add">Hinzu</string>
+    <string name="stop">Stopp</string>
+    <string name="search">Suche</string>
+    <string name="select_file">Datei wählen…</string>
+    <string name="loading">Lädt…</string>
+    <string name="cd_back">Zurück</string>
+    <string name="cd_prev">Vorheriger Sender</string>
+    <string name="cd_next">Nächster Sender</string>
+    <string name="cd_play_pause">Wiedergabe oder Pause</string>
+    <string name="cd_scan">Sendersuchlauf</string>
+    <string name="cd_stations">Senderliste</string>
+    <string name="cd_settings">Einstellungen</string>
+    <string name="cd_test_stream">Stream testen</string>
+    <string name="cd_remove_station">Sender entfernen</string>
+    <string name="notification_channel">Wiedergabe</string>
+
+    <!-- Player -->
+    <string name="tab_web">Webradio</string>
+    <string name="usb_tuner">USB-Tuner</string>
+    <string name="no_usb_tuner">Kein USB-Tuner</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+    <string name="signal">Signal</string>
+    <string name="no_signal">Kein Signal</string>
+    <string name="stereo">Stereo</string>
+    <string name="mono">Mono</string>
+    <string name="sf_on">Service Following an</string>
+    <string name="sf_off">Service Following aus</string>
+    <string name="sf_alternative">Service Following · Alternativfrequenz</string>
+    <string name="internet_stream">Internet-Stream</string>
+    <string name="no_artwork">Kein Bild</string>
+    <string name="not_in_last_scan">beim letzten Suchlauf nicht gefunden</string>
+    <string name="presets_page">Favoriten · Seite %1$d von %2$d</string>
+    <string name="hold_to_save">Halten = speichern</string>
+    <string name="hold_to_save_hint">Favorit gedrückt halten, um den aktuellen Sender dort zu speichern.</string>
+    <string name="preset_saved">%1$s auf Favorit %2$d gespeichert</string>
+    <string name="preset_title">Favorit %1$d · %2$s</string>
+    <string name="preset_replace">Ersetzen durch %s</string>
+    <string name="preset_remove">Diesen Favoriten entfernen</string>
+    <string name="preset_empty">leer</string>
+    <string name="preset_choose">%s als Favorit speichern</string>
+
+    <!-- Playback status -->
+    <string name="status_paused">Pausiert</string>
+    <string name="status_muted">Stumm, solange eine andere App den Ton hat</string>
+    <string name="status_tuning">Sender wird eingestellt…</string>
+    <string name="status_no_signal">Kein Signal auf diesem Kanal</string>
+    <string name="status_waiting_adapter">Warte auf den USB-Tuner</string>
+    <string name="status_connecting">Verbinde…</string>
+    <string name="status_buffering">Puffere…</string>
+    <string name="status_reconnecting">Verbinde erneut…</string>
+    <string name="status_stream_failed">Stream fehlgeschlagen: %s</string>
+    <string name="status_focus_denied">Eine andere App belegt die Tonausgabe</string>
+    <string name="status_no_decoder_plus">Dieses Gerät hat keinen Decoder für DAB+-Ton</string>
+    <string name="status_no_decoder_mp2">Dieses Gerät hat keinen Decoder für DAB-Ton (MPEG Layer II)</string>
+
+    <!-- No adapter and related states -->
+    <string name="search_again">Erneut suchen</string>
+    <string name="add_web_radios">Webradios hinzufügen</string>
+    <string name="skip_usb_search">Bei künftigen Starts nicht nach einem USB-Adapter suchen</string>
+    <string name="notice_none_title">Kein Adapter gefunden</string>
+    <string name="notice_none_text">Einen kompatiblen DAB/DAB+-USB-Adapter anschließen oder stattdessen über das Internet hören.</string>
+    <string name="notice_off_title">Adaptersuche ist aus</string>
+    <string name="notice_off_text">Die App sucht beim Start nicht nach einem USB-Adapter. „Erneut suchen“ verwendet ihn jetzt trotzdem.</string>
+    <string name="notice_permission_title">USB-Zugriff erlauben</string>
+    <string name="notice_permission_text">Den Systemdialog bestätigen, damit die App den DAB-Adapter nutzen darf. Ist der Dialog weg, erneut suchen.</string>
+    <string name="notice_denied_title">USB-Zugriff verweigert</string>
+    <string name="notice_denied_text">Ohne Erlaubnis kann der Adapter nicht verwendet werden. Erneut suchen und den Zugriff erlauben.</string>
+    <string name="notice_unsupported_title">Adapter nicht unterstützt</string>
+    <string name="notice_unsupported_text">Ein Gerät mit der USB-Kennung des Adapters ist angeschlossen, verhält sich aber nicht wie der unterstützte DAB-Adapter.</string>
+    <string name="notice_starting_title">Adapter startet…</string>
+    <string name="notice_starting_text">Der Tuner wird eingeschaltet.</string>
+    <string name="notice_disconnected_title">Adapter getrennt</string>
+    <string name="notice_disconnected_text">Den DAB-Adapter wieder einstecken; das Radio macht dort weiter, wo es aufgehört hat.</string>
+    <string name="notice_no_stations_title">Noch keine Sender</string>
+    <string name="notice_no_stations_text">Einen Sendersuchlauf starten, um die hier empfangbaren Sender zu finden.</string>
+    <string name="notice_no_web_title">Keine Websender</string>
+    <string name="notice_no_web_text">Sender in der Webradio-Verwaltung hinzufügen.</string>
+
+    <!-- Stations -->
+    <string name="stations">Sender</string>
+    <string name="station_name">Sendername</string>
+    <string name="ensemble">Ensemble</string>
+    <string name="all_stations">Alle Sender</string>
+    <string name="scan_stations">Sendersuchlauf</string>
+    <string name="tap_tune_hold_save">Tippen = einstellen · halten = als Favorit speichern</string>
+    <string name="no_station_matches">Kein Sender passt. Suche leeren oder neu suchen lassen.</string>
+    <plurals name="stations">
+        <item quantity="one">%d Sender</item>
+        <item quantity="other">%d Sender</item>
+    </plurals>
+    <plurals name="ensembles">
+        <item quantity="one">%d Ensemble</item>
+        <item quantity="other">%d Ensembles</item>
+    </plurals>
+
+    <!-- Scan -->
+    <string name="station_scan">Sendersuchlauf</string>
+    <string name="band_iii">Band III</string>
+    <plurals name="stations_found">
+        <item quantity="one">%d Sender gefunden</item>
+        <item quantity="other">%d Sender gefunden</item>
+    </plurals>
+    <string name="ready_to_scan">Bereit zum Suchlauf</string>
+    <string name="scanning_percent">Suche läuft %1$d%%</string>
+    <string name="paused_at_percent">Angehalten bei %1$d%%</string>
+    <string name="scan_complete">Suchlauf abgeschlossen</string>
+    <string name="start_scan">Suchlauf starten</string>
+    <string name="scan_continue">Fortsetzen</string>
+    <string name="scan_again">Neu suchen</string>
+    <string name="scan_discard">Verwerfen</string>
+    <string name="scan_mode1">Modus 1</string>
+    <string name="scan_mode1_label">Ersetzen, Favoriten behalten</string>
+    <string name="scan_mode2">Modus 2</string>
+    <string name="scan_mode2_label">Gesamte Senderliste ersetzen</string>
+    <string name="channel_n">Kanal %s</string>
+    <string name="found_so_far">Bisher gefunden</string>
+    <string name="none_found_yet">Noch keine Sender gefunden. Während der Suche pausiert der Ton.</string>
+    <string name="scan_paused_note">Angehalten. Die gespeicherte Senderliste bleibt unverändert, bis ein Suchlauf vollständig durchläuft. Fortsetzen oder das Gefundene verwerfen.</string>
+    <string name="scan_needs_adapter">Zum Suchen den USB-Tuner anschließen.</string>
+    <string name="scan_none_guidance">Es wurden keine Sender gefunden; die Senderliste ist jetzt bis auf behaltene Favoriten leer. Prüfen, ob die Antenne am Adapter steckt und an einer Scheibe oder außen sitzt, Gebäude und Tiefgaragen verlassen und dann neu suchen.</string>
+    <plurals name="scan_kept">
+        <item quantity="one">%d Favorit wurde nicht wiedergefunden und bleibt mit seiner letzten Frequenz in der Liste.</item>
+        <item quantity="other">%d Favoriten wurden nicht wiedergefunden und bleiben mit ihrer letzten Frequenz in der Liste.</item>
+    </plurals>
+    <plurals name="scan_cleared">
+        <item quantity="one">%d Favorit wurde geleert, weil sein Sender nicht mehr empfangen wird.</item>
+        <item quantity="other">%d Favoriten wurden geleert, weil ihre Sender nicht mehr empfangen werden.</item>
+    </plurals>
+
+    <!-- Settings -->
+    <string name="settings">Einstellungen</string>
+    <string name="set_general">Allgemein</string>
+    <string name="set_layout">Layout &amp; Favoriten</string>
+    <string name="set_slideshow">Slideshow &amp; Szene</string>
+    <string name="set_audio">Audio</string>
+    <string name="set_theme">Design</string>
+    <string name="set_about">Über</string>
+    <string name="station_logos">Senderlogos</string>
+    <string name="web_radio_manager">Webradio-Verwaltung</string>
+
+    <string name="s_language">Sprache</string>
+    <string name="s_start_usb">Starten, wenn der USB-Tuner erkannt wird</string>
+    <string name="s_autostart">Autostart</string>
+    <string name="s_start_bg">Im Hintergrund starten</string>
+    <string name="s_autostart_if_supported">Autostart, sofern das Gerät es unterstützt</string>
+    <string name="s_finish_back">Mit Zurück schließen</string>
+    <string name="s_finish_back_sum">Zurück stoppt das Radio und schließt die App; aus lässt es weiterlaufen</string>
+    <string name="s_finish_focus">Beenden bei Verlust des Audiofokus</string>
+    <string name="s_service_following">Service Following</string>
+    <string name="s_service_following_sum">Bei schwachem Signal auf eine Alternativfrequenz wechseln</string>
+    <string name="s_stutter">Stottern verhindern</string>
+    <string name="s_stutter_sum">Experimentell, für schlechten Empfang</string>
+    <string name="s_usb_search">Beim Start nach dem USB-Adapter suchen</string>
+    <string name="s_usb_search_sum">Aus für reinen Webradio-Betrieb</string>
+
+    <string name="s_menu_top">Menüleiste oben</string>
+    <string name="s_clock">Uhr in der Menüleiste anzeigen</string>
+    <string name="s_now_playing">Sendername und Kanal / Frequenz anzeigen</string>
+    <string name="s_dls_top">DLS-Text oben anzeigen</string>
+    <string name="s_dls_overlay">DLS-Einblendung, wenn der Player im Hintergrund ist</string>
+    <string name="s_per_page">Favoriten pro Seite</string>
+    <string name="s_pages">Favoritenseiten</string>
+    <string name="s_hide_presets">Favoriten ausblenden</string>
+    <string name="s_hide_presets_sum">Abhängig vom Bildschirmformat</string>
+    <string name="overlay_permission">Welle erlauben, über anderen Apps einzublenden, damit die DLS-Einblendung erscheint.</string>
+
+    <string name="s_slideshow">Slideshow anzeigen</string>
+    <string name="s_slideshow_sum">Aus zeigt immer das Senderlogo</string>
+    <string name="s_transparency">Transparenz der Slideshow</string>
+    <string name="s_dim">Slideshow und Szene nach Sonnenuntergang abdunkeln</string>
+    <string name="s_dim_bright">Helligkeit beim Abdunkeln</string>
+    <string name="s_vis">Visualisierung</string>
+    <string name="s_scene">Szene importieren</string>
+    <string name="s_scene_sum">Eigene Szene aus einer Datei</string>
+    <string name="s_scene_remove">Installiert · entfernen</string>
+    <string name="scene_installed">Szene installiert</string>
+    <string name="scene_failed">Szene nicht installiert: %s</string>
+
+    <string name="s_volume">Lautstärke</string>
+    <string name="s_agc">Automatische Pegelanpassung</string>
+    <string name="s_agc_sum">Gleicht die Lautstärke zwischen Sendern an</string>
+    <string name="s_noise">Rauschen unterdrücken</string>
+    <string name="s_noise_sum">Blendet Rauschen in leisen Passagen ab</string>
+    <string name="s_mute_focus">Stumm bei Verlust des Audiofokus</string>
+    <string name="s_mute_focus_sum">Stumm schalten statt leiser stellen oder pausieren</string>
+    <string name="s_duck">Lautstärke bei Navigationsansagen</string>
+
+    <string name="theme_night">Nacht</string>
+    <string name="theme_night_sum">Dunkel, Standard</string>
+    <string name="theme_day">Tag</string>
+    <string name="theme_day_sum">Hell</string>
+    <string name="theme_gps">Auto (GPS)</string>
+    <string name="theme_gps_sum">Wechselt bei Sonnenuntergang</string>
+    <string name="theme_system">Auto (System)</string>
+    <string name="theme_system_sum">Folgt dem Gerät</string>
+    <string name="accent_colour">Akzentfarbe</string>
+
+    <string name="s_version">Version</string>
+    <string name="s_licences">Open-Source-Lizenzen</string>
+    <string name="s_privacy">Datenschutzerklärung</string>
+    <string name="s_usb_adapter">USB-Adapter</string>
+    <string name="s_usb_adapter_sum">Tippen, um erneut zu suchen</string>
+    <string name="usb_off">Suche aus</string>
+    <string name="usb_none">Nicht gefunden</string>
+    <string name="usb_permission">Warte auf Erlaubnis</string>
+    <string name="usb_denied">Erlaubnis verweigert</string>
+    <string name="usb_unsupported">Nicht unterstützt</string>
+    <string name="usb_starting">Startet</string>
+    <string name="usb_ready">Bereit</string>
+    <string name="usb_disconnected">Getrennt</string>
+
+    <string-array name="opt_overlay">
+        <item>Aus</item>
+        <item>5 s</item>
+        <item>10 s</item>
+        <item>Dauerhaft</item>
+    </string-array>
+    <string-array name="opt_per_page">
+        <item>6 Favoriten</item>
+        <item>8 Favoriten</item>
+        <item>12 Favoriten</item>
+    </string-array>
+    <string-array name="opt_hide_presets">
+        <item>Aus</item>
+        <item>Im Querformat</item>
+    </string-array>
+    <string-array name="opt_transparency">
+        <item>Deckend</item>
+        <item>25 %</item>
+        <item>50 %</item>
+        <item>75 %</item>
+    </string-array>
+    <string-array name="opt_vis">
+        <item>Keine</item>
+        <item>Spektrum</item>
+        <item>Kreisspektrum</item>
+        <item>Regenbogenspektrum</item>
+        <item>Equalizer</item>
+        <item>Wellen</item>
+        <item>Retro</item>
+    </string-array>
+    <string-array name="accent_names">
+        <item>Bernstein</item>
+        <item>Aqua</item>
+        <item>Kirsche</item>
+        <item>Gras</item>
+        <item>Pink</item>
+        <item>Kürbis</item>
+    </string-array>
+
+    <!-- Web radio manager -->
+    <string name="station_source">Senderquelle</string>
+    <string name="source_file">Datei</string>
+    <string name="api_url_label">URL der Webradio-Such-API</string>
+    <string name="country">Land</string>
+    <string name="genre">Genre</string>
+    <string name="file_label">Lokale .m3u- oder .m3u8-Playlist</string>
+    <string name="m3u_label">URL einer .m3u- oder .m3u8-Playlist</string>
+    <string name="load_playlist">Playlist laden</string>
+    <string name="add_manually">Sender von Hand hinzufügen</string>
+    <string name="stream_url">Stream-URL</string>
+    <string name="add_and_play">Hinzufügen &amp; abspielen</string>
+    <string name="search_results">Suchergebnisse (%1$s, %2$d)</string>
+    <string name="shown_on_web_tab">Erscheinen im Webradio-Tab</string>
+    <string name="my_web_stations">Meine Websender</string>
+    <string name="no_web_stations_yet">Noch keine Websender. Einen aus den Suchergebnissen hinzufügen.</string>
+    <string name="nothing_left_to_add">Für diese Suche ist nichts mehr hinzuzufügen.</string>
+    <string name="no_results">Keine Sender für diese Suche gefunden.</string>
+    <string name="nothing_loaded">Noch nichts geladen.</string>
+    <string name="invalid_url">Eine vollständige http://- oder https://-Adresse eingeben.</string>
+    <string name="load_failed">Laden fehlgeschlagen: %s</string>
+    <string name="file_is_hls">Diese Datei ist ein HLS-Stream-Manifest, keine Senderliste. Stattdessen ihre Adresse als Stream-URL eintragen.</string>
+    <string name="file_no_stations">Die Datei enthält keine Sender mit http- oder https-Adresse.</string>
+    <string name="test_ok">Stream in Ordnung</string>
+    <plurals name="web_stations">
+        <item quantity="one">%d Websender</item>
+        <item quantity="other">%d Websender</item>
+    </plurals>
+
+    <!-- Logos -->
+    <string name="download_radiodns">Über RadioDNS laden</string>
+    <string name="needs_internet">Benötigt eine Internetverbindung</string>
+    <string name="import_pack">Logopaket importieren</string>
+    <string name="import_pack_sum">Gespeicherte Logos aus einer Datei laden</string>
+    <string name="export_pack">Logopaket exportieren</string>
+    <string name="export_pack_sum">Speichert im Ordner Dokumente</string>
+    <string name="logo_progress">%1$d von %2$d Sendern · %3$d Logos gefunden</string>
+    <string name="downloading_percent">Lade %1$d%%</string>
+    <string name="logo_done">Fertig</string>
+    <string name="logo_no_network">Kein Internet</string>
+    <string name="tap_set_hold_remove">Tippen = Logo aus Datei setzen · halten = entfernen</string>
+    <string name="logo_set">Logo gesetzt</string>
+    <string name="logo_not_found">Kein Logo gefunden</string>
+    <string name="logo_waiting">Wartet</string>
+    <string name="logo_none">Kein Logo</string>
+    <string name="logo_remove_title">Logo von %s</string>
+    <string name="logo_remove">Logo entfernen</string>
+    <string name="logo_failed">Das hat nicht geklappt: %s</string>
+    <string name="pack_imported">%d Logos importiert</string>
+    <string name="pack_exported">%1$d Logos gespeichert unter %2$s</string>
+
+    <string name="pick_file">Datei wählen</string>
+</resources>

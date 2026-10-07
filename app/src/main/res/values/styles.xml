@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Platform theme only: AndroidX/Material need API 21+, the head unit is API 17. -->
+    <style name="Theme.Welle" parent="android:Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@color/window_night</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>

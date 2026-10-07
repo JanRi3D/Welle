@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <!--
+            Debug builds only: fills the UI with labelled demo data so the DAB screens can be
+            checked without a tuner. Not part of release builds. Usage:
+            adb shell am broadcast -n me.ri3d.welle/.debug.DemoReceiver -a me.ri3d.welle.DEMO -e mode player
+        -->
+        <receiver
+            android:name=".debug.DemoReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="me.ri3d.welle.DEMO" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

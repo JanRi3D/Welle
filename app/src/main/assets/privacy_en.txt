@@ -1,0 +1,31 @@
+Privacy policy
+
+Welle is a radio. It has no accounts, no advertising, no analytics and no tracking, and it sends nothing to its author.
+
+What stays on the device
+Settings, the station lists, presets, station logos and an imported scene are stored in the private storage of the app. Uninstalling the app removes them.
+
+When the app uses the internet
+Only for the following, and only when you use the feature:
+
+- Web radio: the app connects to the stream address of the station you play. That server sees your IP address and the identification "Welle/1.0", like any web server does.
+
+- Station search: your search text, country and genre are sent to the search API whose address is shown in the web radio manager (by default a server of the community project Radio Browser). Station icons are loaded from the addresses that catalogue lists.
+
+- Playlist URL: the address you enter is fetched.
+
+- Logos via RadioDNS: for each DAB station the app looks up a name under radiodns.org that contains the DAB identifiers of the station, using the DNS server of the network (or the public resolver 9.9.9.9 if none can be determined). If the broadcaster takes part, the app downloads its service information file and the logo from the server of the broadcaster.
+
+DAB reception itself needs no internet connection.
+
+Location
+If you choose the theme "Auto (GPS)" or dimming after sunset and grant the location permission, the app reads the position the device already knows in order to calculate sunrise and sunset. The position is kept in the settings of the app on the device and is never transmitted. Without the permission, the app estimates sunset from the time zone.
+
+USB
+The app only communicates with the DAB USB adapter.
+
+Permissions
+Internet and network state: the functions above. Foreground service, notifications and wake lock: playback while the screen shows something else. Location: sunset calculation. Draw over other apps: the optional DLS overlay. Storage (older Android versions only): exporting a logo pack to the Documents folder and browsing for files.
+
+Diagnostics
+The app writes technical messages to the system log of the device. Nothing is uploaded.

@@ -1,0 +1,31 @@
+Datenschutzerklärung
+
+Welle ist ein Radio. Es gibt keine Konten, keine Werbung, keine Analyse und kein Tracking, und die App sendet nichts an ihren Autor.
+
+Was auf dem Gerät bleibt
+Einstellungen, Senderlisten, Favoriten, Senderlogos und eine importierte Szene liegen im privaten Speicher der App. Beim Deinstallieren werden sie entfernt.
+
+Wann die App das Internet nutzt
+Nur für Folgendes, und nur, wenn die jeweilige Funktion benutzt wird:
+
+- Webradio: Die App verbindet sich mit der Stream-Adresse des gehörten Senders. Dieser Server sieht die IP-Adresse und die Kennung "Welle/1.0", wie jeder Webserver.
+
+- Sendersuche: Suchtext, Land und Genre gehen an die Such-API, deren Adresse in der Webradio-Verwaltung steht (standardmäßig ein Server des Community-Projekts Radio Browser). Sender-Icons werden von den Adressen geladen, die dieser Katalog nennt.
+
+- Playlist-URL: Die eingegebene Adresse wird abgerufen.
+
+- Logos über RadioDNS: Für jeden DAB-Sender fragt die App einen Namen unter radiodns.org ab, der die DAB-Kennungen des Senders enthält, und zwar beim DNS-Server des Netzwerks (oder beim öffentlichen Resolver 9.9.9.9, wenn keiner ermittelt werden kann). Nimmt der Sender teil, lädt die App dessen Service-Informationsdatei und das Logo vom Server des Senders.
+
+Der DAB-Empfang selbst braucht keine Internetverbindung.
+
+Standort
+Wer das Design "Auto (GPS)" oder das Abdunkeln nach Sonnenuntergang wählt und die Standortberechtigung erteilt, erlaubt der App, die dem Gerät bereits bekannte Position zu lesen, um Sonnenauf- und -untergang zu berechnen. Die Position bleibt in den Einstellungen der App auf dem Gerät und wird nie übertragen. Ohne Berechtigung schätzt die App den Sonnenuntergang aus der Zeitzone.
+
+USB
+Die App kommuniziert ausschließlich mit dem DAB-USB-Adapter.
+
+Berechtigungen
+Internet und Netzwerkstatus: die oben genannten Funktionen. Vordergrunddienst, Benachrichtigungen und Wake-Lock: Wiedergabe, während der Bildschirm etwas anderes zeigt. Standort: Berechnung des Sonnenuntergangs. Über anderen Apps einblenden: die optionale DLS-Einblendung. Speicher (nur ältere Android-Versionen): Export eines Logopakets in den Ordner Dokumente und Dateiauswahl.
+
+Diagnose
+Die App schreibt technische Meldungen in das Systemprotokoll des Geräts. Es wird nichts hochgeladen.

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Legacy launcher icon; rasterised to PNG by the build for API 16-20. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="72"
+    android:viewportHeight="72">
+    <path
+        android:fillColor="#121214"
+        android:pathData="M12,2h48a10,10 0,0 1,10 10v48a10,10 0,0 1,-10 10h-48a10,10 0,0 1,-10 -10v-48a10,10 0,0 1,10 -10z" />
+    <path
+        android:fillColor="#F3EFE6"
+        android:pathData="M12,34h3v20h-3z M21,42h3v12h-3z M30,42h3v12h-3z M39,34h3v20h-3z M57,34h3v20h-3z" />
+    <path
+        android:fillColor="#FFB224"
+        android:pathData="M47,16h4v40h-4z M12,22h8v8h-8z" />
+</vector>

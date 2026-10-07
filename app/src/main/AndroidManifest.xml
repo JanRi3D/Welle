@@ -2,14 +2,92 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- USB host is optional: without it the app still works as a web radio. -->
+    <uses-feature android:name="android.hardware.usb.host" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+
+    <!-- Web radio, station search, RadioDNS logos. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Keeps the CPU awake while audio plays with the screen off. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Playback service. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Theme "Auto (GPS)" and dimming after sunset; coarse position is enough. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- DLS overlay while the player is in the background. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Logo pack export to Documents and the built-in file browser on old Android. -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
     <application
+        android:name=".App"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.Welle" />
+        android:supportsRtl="false"
+        android:theme="@style/Theme.Welle"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="36">
+        <!-- Cleartext is allowed because many radio streams and RadioDNS SI files are HTTP only. -->
+
+        <activity
+            android:name=".ui.PlayerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.StationsActivity" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:exported="false" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".ui.ScanActivity" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:exported="false" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".ui.SettingsActivity" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:exported="false" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".ui.WebRadioActivity" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:exported="false" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".ui.LogosActivity" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:exported="false" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".ui.TextActivity" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:exported="false" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".ui.FilePickerActivity" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:exported="false" android:screenOrientation="sensorLandscape" />
+
+        <!--
+            Invisible entry point for "USB tuner plugged in". Android only delivers
+            USB_DEVICE_ATTACHED to activities; ticking "use by default" in the system dialog
+            also makes the USB permission permanent. Enabled/disabled from the
+            "Start when the USB tuner is detected" setting.
+        -->
+        <activity
+            android:name=".UsbAttachActivity"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+        </activity>
+
+        <service
+            android:name=".RadioService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <receiver android:name=".MediaButtonReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+    </application>
 
 </manifest>
