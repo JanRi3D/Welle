@@ -152,6 +152,8 @@
     <string name="s_autostart_if_supported">Autostart, sofern das Gerät es unterstützt</string>
     <string name="s_finish_back">Mit Zurück schließen</string>
     <string name="s_finish_back_sum">Zurück stoppt das Radio und schließt die App; aus lässt es weiterlaufen</string>
+    <string name="s_minimize">Minimieren-Taste</string>
+    <string name="s_minimize_sum">In der Menüleiste: Minimieren lässt das Radio weiterlaufen, Schließen stoppt es</string>
     <string name="s_finish_focus">Beenden bei Verlust des Audiofokus</string>
     <string name="s_service_following">Service Following</string>
     <string name="s_service_following_sum">Bei schwachem Signal auf eine Alternativfrequenz wechseln</string>
@@ -169,6 +171,7 @@
     <string name="s_pages">Favoritenseiten</string>
     <string name="s_hide_presets">Favoriten ausblenden</string>
     <string name="s_hide_presets_sum">Abhängig vom Bildschirmformat</string>
+    <string name="s_bars">Systemleisten</string>
     <string name="overlay_permission">Welle erlauben, über anderen Apps einzublenden, damit die DLS-Einblendung erscheint.</string>
 
     <string name="s_slideshow">Slideshow anzeigen</string>
@@ -226,10 +229,21 @@
         <item>6 Favoriten</item>
         <item>8 Favoriten</item>
         <item>12 Favoriten</item>
+        <item>4 Favoriten</item>
     </string-array>
     <string-array name="opt_hide_presets">
         <item>Aus</item>
         <item>Im Querformat</item>
+    </string-array>
+    <string-array name="opt_minimize">
+        <item>Minimieren</item>
+        <item>App schließen</item>
+    </string-array>
+    <string-array name="opt_bars">
+        <item>Notch aussparen</item>
+        <item>Nur Statusleiste ausblenden</item>
+        <item>Vollbild (alle Leisten ausgeblendet)</item>
+        <item>Normal</item>
     </string-array>
     <string-array name="opt_transparency">
         <item>Deckend</item>

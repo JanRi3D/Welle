@@ -94,12 +94,14 @@ public final class SettingsActivity extends BaseActivity {
                 toggle(Settings.START_USB, R.string.s_start_usb, R.string.s_autostart);
                 toggle(Settings.START_BG, R.string.s_start_bg, R.string.s_autostart_if_supported);
                 toggle(Settings.FINISH_BACK, R.string.s_finish_back, R.string.s_finish_back_sum);
+                select(Settings.MINIMIZE, R.string.s_minimize, R.string.s_minimize_sum, R.array.opt_minimize);
                 toggle(Settings.FINISH_FOCUS, R.string.s_finish_focus, 0);
                 toggle(Settings.SERVICE_FOLLOWING, R.string.s_service_following, R.string.s_service_following_sum);
                 toggle(Settings.STUTTER, R.string.s_stutter, R.string.s_stutter_sum);
                 toggle(Settings.SKIP_USB, R.string.s_usb_search, R.string.s_usb_search_sum);
                 break;
             case LAYOUT:
+                select(Settings.BARS, R.string.s_bars, 0, R.array.opt_bars);
                 toggle(Settings.MENU_TOP, R.string.s_menu_top, 0);
                 toggle(Settings.CLOCK, R.string.s_clock, 0);
                 toggle(Settings.NOW_PLAYING, R.string.s_now_playing, 0);
@@ -227,6 +229,8 @@ public final class SettingsActivity extends BaseActivity {
             recreate();
         } else if (Settings.START_USB.equals(key)) {
             UsbAttachActivity.setEnabled(this, settings.b(key));
+        } else if (Settings.BARS.equals(key)) {
+            applyBars();
         } else if (Settings.SKIP_USB.equals(key)) {
             if (radio != null) radio.setUsbSearchEnabled(!settings.b(key));
         } else if (Settings.DLS_OVERLAY.equals(key)) {

@@ -14,16 +14,18 @@ public final class Settings {
     public static final String START_BG = "startBck";
     public static final String FINISH_BACK = "finishBack";
     public static final String FINISH_FOCUS = "finishFocus";
+    public static final String MINIMIZE = "minimize";         // menu-bar button: 0 Minimize, 1 Close the app
     public static final String SERVICE_FOLLOWING = "sf";
     public static final String STUTTER = "stutter";
     public static final String SKIP_USB = "skipUsb";          // "Do not search for a USB adapter on future starts"
     // Layout & presets
+    public static final String BARS = "bars";                 // 0 Keep notch clear, 1 Hide status bar only, 2 Fullscreen, 3 Normal
     public static final String MENU_TOP = "menuTop";
     public static final String CLOCK = "clock";
     public static final String NOW_PLAYING = "nowPlaying";
     public static final String DLS_TOP = "dlsTop";
     public static final String DLS_OVERLAY = "dlsOverlay";    // 0 Off, 1 5 s, 2 10 s, 3 Infinite
-    public static final String PER_PAGE = "perPage";          // 0 6, 1 8, 2 12
+    public static final String PER_PAGE = "perPage";          // 0 6, 1 8, 2 12, 3 4
     public static final String PAGES = "pages";               // 0..4 -> 1..5
     public static final String HIDE_PRESETS = "hidePresets";  // 0 Off, 1 In landscape
     // Slideshow & scene
@@ -60,7 +62,8 @@ public final class Settings {
     /** Documented at https://api.radio-browser.info/ ; any server of that pool works. */
     public static final String DEFAULT_API_URL = "https://de1.api.radio-browser.info";
 
-    public static final int[] PER_PAGE_OPTS = {6, 8, 12};
+    /** 4 came later and is last, so stored choices keep their meaning; the selector wraps around anyway. */
+    public static final int[] PER_PAGE_OPTS = {6, 8, 12, 4};
     public static final int[] PERCENT_25_50_75 = {25, 50, 75};
     public static final int[] VOLUME_OPTS = {100, 90, 80, 70, 60, 50};
     public static final int[] TRANSPARENCY_OPTS = {0, 25, 50, 75};
@@ -104,7 +107,7 @@ public final class Settings {
 
     // ---- derived values -------------------------------------------------------------------
 
-    public int perPage() { return PER_PAGE_OPTS[clamp(i(PER_PAGE), 0, 2)]; }
+    public int perPage() { return PER_PAGE_OPTS[clamp(i(PER_PAGE), 0, PER_PAGE_OPTS.length - 1)]; }
     public int pages() { return clamp(i(PAGES), 0, 4) + 1; }
     public float volumeGain() { return VOLUME_OPTS[clamp(i(VOLUME), 0, 5)] / 100f; }
     public float duckGain() { return PERCENT_25_50_75[clamp(i(DUCK), 0, 2)] / 100f; }

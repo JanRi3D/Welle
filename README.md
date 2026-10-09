@@ -89,7 +89,11 @@ anything else.
 
 - **Pause on DAB** stops decoding. There is no time-shift; play resumes live.
 - **Back**: with "Close with back" off (default) the app goes to the background and keeps
-  playing; with it on, back stops the radio and closes the app.
+  playing; with it on, back stops the radio and closes the app. The button at the right of
+  the menu bar does one of the two, as chosen under "Minimise button".
+- **System bars**: "Keep notch clear" (default) hides both bars and keeps the content off the
+  display cutout; "Fullscreen" also uses the cutout area. Android 4.1-4.3 can only hide the
+  status bar for good, so there only "Normal" looks different.
 - **Audio focus**
   - Navigation prompt: plays at "Volume during navigation prompts"; silent instead if
     "Mute on audio focus loss" is on.
@@ -109,7 +113,8 @@ anything else.
   player did. A head unit that reports its steering-wheel keys in some other private way
   needs its own mapping.
 - **Presets** are one bank of 60 slots for DAB and web stations alike. Changing "presets per
-  page" or "preset pages" only changes what is shown.
+  page" or "preset pages" only changes what is shown. With 4 per page they are one row of
+  big buttons.
 - **Theme "Auto (GPS)"** uses the last position the device already knows; it never turns
   the GPS on. Without permission or position it assumes 50° N on the time-zone meridian.
 - **Theme "Auto (system)"** follows the system dark mode on Android 10+. Older versions have

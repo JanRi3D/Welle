@@ -16,10 +16,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.DisplayCutout;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.window.OnBackInvokedCallback;
 import android.window.OnBackInvokedDispatcher;
@@ -53,9 +55,19 @@ public abstract class BaseActivity extends Activity implements RadioService.List
     protected Ui ui;
 
     private FrameLayout root;
+    /** Content size: the window minus {@link #insets}. */
     private int rootW, rootH;
+    /** Padding that keeps the content clear of the cutout and visible system bars, as chosen. */
+    private final Rect insets = new Rect();
     private boolean bound;
     private String look = "";
+
+    private final Runnable resized = new Runnable() {
+        @Override
+        public void run() {
+            sized();
+        }
+    };
 
     private final BroadcastReceiver minuteTick = new BroadcastReceiver() {
         @Override
@@ -77,20 +89,20 @@ public abstract class BaseActivity extends Activity implements RadioService.List
         app = App.of(this);
         settings = app.settings;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (Build.VERSION.SDK_INT >= 28) {
+            // Lay out under the cutout in every mode, as Android 15+ always does; fit() keeps it clear where chosen.
+            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
         if (Build.VERSION.SDK_INT >= 33) registerBackCallback();
         root = new FrameLayout(this) {
             @Override
             protected void onSizeChanged(int w, int h, int oldW, int oldH) {
                 super.onSizeChanged(w, h, oldW, oldH);
-                post(new Runnable() {
-                    @Override
-                    public void run() {
-                        sized();
-                    }
-                });
+                post(resized);
             }
         };
         setContentView(root);
+        applyBars();
         // A fullscreen window is not resized for the on-screen keyboard on old Android, so
         // make room for it by hand; scrolling columns then keep every field reachable.
         root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -103,9 +115,59 @@ public abstract class BaseActivity extends Activity implements RadioService.List
                 root.getLocationOnScreen(at);
                 int hidden = Math.max(0, at[1] + root.getHeight() - visible.bottom);
                 if (hidden < root.getHeight() / 6) hidden = 0;
-                if (root.getPaddingBottom() != hidden) root.setPadding(0, 0, 0, hidden);
+                if (Build.VERSION.SDK_INT >= 28 && fit()) root.post(resized);
+                root.setPadding(insets.left, insets.top, insets.right, Math.max(insets.bottom, hidden));
             }
         });
+    }
+
+    /**
+     * Shows or hides the system bars as chosen. Android 4.1-4.3 can only hide the status bar
+     * for good, so there everything but "Normal" looks the same.
+     */
+    protected final void applyBars() {
+        int mode = settings.i(Settings.BARS);
+        if (mode == 3) getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        else getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= 19) {
+            boolean navigation = mode == 1 || mode == 3;
+            getWindow().getDecorView().setSystemUiVisibility(navigation ? 0 : View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
+        // Runs fit() again even when the flags change nothing (fullscreen <-> keep notch clear).
+        root.requestLayout();
+    }
+
+    /**
+     * Works out {@link #insets}: the cutout unless "Fullscreen", plus the bars where they show.
+     * Measured against where the window put the content, so space the system already left out
+     * (Android up to 14 fits windows between visible bars) is not added twice.
+     *
+     * @return whether the insets changed
+     */
+    @TargetApi(28)
+    private boolean fit() {
+        WindowInsets in = root.getRootWindowInsets();
+        if (in == null) return false;
+        int mode = settings.i(Settings.BARS);
+        Rect need = new Rect();
+        DisplayCutout cut = in.getDisplayCutout();
+        if (mode != 2 && cut != null) need.set(cut.getSafeInsetLeft(), cut.getSafeInsetTop(), cut.getSafeInsetRight(), cut.getSafeInsetBottom());
+        if (mode == 1 || mode == 3) {
+            need.set(Math.max(need.left, in.getSystemWindowInsetLeft()), Math.max(need.top, in.getSystemWindowInsetTop()),
+                    Math.max(need.right, in.getSystemWindowInsetRight()), Math.max(need.bottom, in.getSystemWindowInsetBottom()));
+        }
+        int[] at = new int[2];
+        root.getLocationInWindow(at);
+        View window = getWindow().getDecorView();
+        Rect next = new Rect(Math.max(0, need.left - at[0]), Math.max(0, need.top - at[1]),
+                Math.max(0, need.right - (window.getWidth() - at[0] - root.getWidth())),
+                Math.max(0, need.bottom - (window.getHeight() - at[1] - root.getHeight())));
+        if (next.equals(insets)) return false;
+        insets.set(next);
+        return true;
     }
 
     /**
@@ -149,10 +211,10 @@ public abstract class BaseActivity extends Activity implements RadioService.List
     }
 
     private void sized() {
-        int w = root.getWidth(), h = root.getHeight();
-        if (w == 0 || h == 0) return;
-        // Rebuild for a new width or a taller window, not when the keyboard shrinks it.
-        if (w != rootW || h > rootH || ui == null) {
+        int w = root.getWidth() - insets.left - insets.right, h = root.getHeight() - insets.top - insets.bottom;
+        if (w <= 0 || h <= 0) return;
+        // Rebuild for any new size (bars shown or hidden), not when the keyboard takes a big bite.
+        if (w != rootW || h != rootH && rootH - h < rootH / 6 || ui == null) {
             rootW = w;
             rootH = h;
             rebuild();
@@ -236,13 +298,8 @@ public abstract class BaseActivity extends Activity implements RadioService.List
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            // Android 4.1-4.3 use the fullscreen theme alone; from 4.4 also hide the navigation bar.
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        }
+        // Hidden bars come back with dialogs and the keyboard.
+        if (hasFocus) applyBars();
     }
 
     // ---- shared building blocks --------------------------------------------------------------

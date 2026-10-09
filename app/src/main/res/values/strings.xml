@@ -156,6 +156,8 @@
     <string name="s_autostart_if_supported">Autostart, if the device supports it</string>
     <string name="s_finish_back">Close with back</string>
     <string name="s_finish_back_sum">Back stops the radio and closes the app; off keeps it playing</string>
+    <string name="s_minimize">Minimise button</string>
+    <string name="s_minimize_sum">In the menu bar: minimise keeps the radio playing, close stops it</string>
     <string name="s_finish_focus">Exit on audio focus loss</string>
     <string name="s_service_following">Service following</string>
     <string name="s_service_following_sum">Switch to an alternative frequency when the signal drops</string>
@@ -173,6 +175,7 @@
     <string name="s_pages">Preset pages</string>
     <string name="s_hide_presets">Hide presets</string>
     <string name="s_hide_presets_sum">Depending on screen ratio</string>
+    <string name="s_bars">System bars</string>
     <string name="overlay_permission">Allow Welle to draw over other apps to show the DLS overlay.</string>
 
     <string name="s_slideshow">Show slideshow</string>
@@ -235,6 +238,7 @@
         <item>6 presets</item>
         <item>8 presets</item>
         <item>12 presets</item>
+        <item>4 presets</item>
     </string-array>
     <string-array name="opt_pages" translatable="false">
         <item>1</item>
@@ -246,6 +250,16 @@
     <string-array name="opt_hide_presets">
         <item>Off</item>
         <item>In landscape</item>
+    </string-array>
+    <string-array name="opt_minimize">
+        <item>Minimise</item>
+        <item>Close the app</item>
+    </string-array>
+    <string-array name="opt_bars">
+        <item>Keep notch clear</item>
+        <item>Hide status bar only</item>
+        <item>Fullscreen (all bars hidden)</item>
+        <item>Normal</item>
     </string-array>
     <string-array name="opt_transparency">
         <item>Opaque</item>

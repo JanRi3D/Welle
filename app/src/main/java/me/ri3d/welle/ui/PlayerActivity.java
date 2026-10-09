@@ -146,8 +146,23 @@ public final class PlayerActivity extends BaseActivity {
         right.addView(scanIcon, ui.lp(48, 48));
         right.addView(listIcon, ui.lp(48, 48));
         right.addView(icon(IconView.SETTINGS, R.string.cd_settings, SettingsActivity.class), ui.lp(48, 48));
+        right.addView(minimizeButton(), ui.lp(48, 48));
         bar.addView(right, ui.lp(Ui.WRAP, Ui.MATCH));
         return bar;
+    }
+
+    private IconView minimizeButton() {
+        final boolean close = settings.i(Settings.MINIMIZE) == 1;
+        IconView v = new IconView(this, close ? IconView.CLOSE : IconView.MINIMIZE, ui.px(26), ui.t.text);
+        v.setContentDescription(getResources().getStringArray(R.array.opt_minimize)[close ? 1 : 0]);
+        v.setBackground(ui.button(0, 0, 6));
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                leave(close);
+            }
+        });
+        return v;
     }
 
     private IconView icon(int kind, int description, final Class<?> target) {
@@ -543,20 +558,21 @@ public final class PlayerActivity extends BaseActivity {
         }
 
         presetBox.removeAllViews();
-        int cols = perPage / 2;
-        for (int r = 0; r < 2; r++) {
+        // Four presets are one row of big buttons as tall as the usual two rows.
+        int rows = perPage == 4 ? 1 : 2, cols = perPage / rows;
+        for (int r = 0; r < rows; r++) {
             LinearLayout line = ui.row(8);
-            for (int c = 0; c < cols; c++) line.addView(presetCell(page * perPage + r * cols + c, current), ui.flex(0, Ui.MATCH));
-            LinearLayout.LayoutParams lp = ui.lp(Ui.MATCH, 64);
+            for (int c = 0; c < cols; c++) line.addView(presetCell(page * perPage + r * cols + c, current, rows == 1), ui.flex(0, Ui.MATCH));
+            LinearLayout.LayoutParams lp = ui.lp(Ui.MATCH, rows == 1 ? 64 + 8 + 64 : 64);
             if (r > 0) lp.topMargin = ui.px(8);
             presetBox.addView(line, lp);
         }
     }
 
-    private View presetCell(final int slot, Station current) {
+    private View presetCell(final int slot, Station current, boolean big) {
         final Station s = app.stations.find(app.stations.presets[slot]);
         LinearLayout cell = ui.col(0);
-        ui.pad(cell, 12, 8, 12, 8);
+        ui.pad(cell, big ? 16 : 12, big ? 12 : 8, big ? 16 : 12, big ? 12 : 8);
         if (s == null) {
             cell.setBackground(ui.dashed(ui.t.lineStrong, 6));
             cell.addView(ui.tech(getString(R.string.hold_to_save), 12, ui.t.dim));
@@ -567,7 +583,13 @@ public final class PlayerActivity extends BaseActivity {
             String where = s.isDab() && s.loc() != null ? DabChannels.label(s.loc().khz) : getString(R.string.web_short);
             cell.addView(ui.tech(String.format(Locale.US, "%02d · %s", slot + 1, where), 12, fg));
             cell.addView(ui.spacer(), ui.flex(1, 0));
-            cell.addView(ui.label(s.name, ui.bold(), 17, fg), ui.lp(Ui.MATCH, Ui.WRAP));
+            if (big) {
+                NameView name = new NameView(ui, fg, 34, 28, 22, 18);
+                name.setText(s.name);
+                cell.addView(name, ui.lp(Ui.MATCH, Ui.WRAP));
+            } else {
+                cell.addView(ui.label(s.name, ui.bold(), 17, fg), ui.lp(Ui.MATCH, Ui.WRAP));
+            }
         }
         cell.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -638,7 +660,12 @@ public final class PlayerActivity extends BaseActivity {
      */
     @Override
     protected void onBack() {
-        if (settings.b(Settings.FINISH_BACK) && radio != null) {
+        leave(settings.b(Settings.FINISH_BACK));
+    }
+
+    /** Ends playback and the app, or only moves it to the background with the radio playing on. */
+    private void leave(boolean close) {
+        if (close && radio != null) {
             radio.exit();
             finish();
         } else {

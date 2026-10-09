@@ -25,8 +25,8 @@ android {
         applicationId = "me.ri3d.welle"
         minSdk = 16
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
 
         ndk {
             // armeabi-v7a is the head unit; the others cover emulators and modern phones.

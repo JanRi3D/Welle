@@ -20,7 +20,7 @@ final class Widgets {
 
 /** One of the design's stroke icons, drawn from its 24 x 24 SVG path data. */
 final class IconView extends View {
-    static final int SCAN = 0, LIST = 1, SETTINGS = 2, BACK = 3, CHEVRON = 4, PREV = 5, NEXT = 6, PLAY = 7, PAUSE = 8, CLOSE = 9;
+    static final int SCAN = 0, LIST = 1, SETTINGS = 2, BACK = 3, CHEVRON = 4, PREV = 5, NEXT = 6, PLAY = 7, PAUSE = 8, CLOSE = 9, MINIMIZE = 10;
 
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Path path = new Path();
@@ -115,6 +115,9 @@ final class IconView extends View {
                 paint.setStrokeWidth(2.5f);
                 line(8, 5, 8, 19);
                 line(16, 5, 16, 19);
+                break;
+            case MINIMIZE:
+                line(5, 18, 19, 18);
                 break;
             default: // CLOSE
                 line(6, 6, 18, 18);
