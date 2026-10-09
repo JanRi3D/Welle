@@ -112,6 +112,11 @@ anything else.
   `com.android.music.musicservicecommand` broadcasts, the way the stock Android 4 music
   player did. A head unit that reports its steering-wheel keys in some other private way
   needs its own mapping.
+- **Dashboards** can show what plays on Android 4.x too: Welle sends its state as the sticky
+  broadcast `me.ri3d.welle.STATE` (source, station, DLS/stream title, playing, position in the
+  station list that next/previous step through, preset) and serves the picture it shows
+  (slideshow if enabled, else the logo) read-only at `content://me.ri3d.welle.art/...`, named in
+  the broadcast's `art` extra. OpenDashboard uses both.
 - **Presets** are one bank of 60 slots for DAB and web stations alike. Changing "presets per
   page" or "preset pages" only changes what is shown. With 4 per page they are one row of
   big buttons.

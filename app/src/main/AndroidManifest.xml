@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Now-playing state for dashboards (me.ri3d.welle.STATE, see RadioService.publishState). -->
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <!-- Theme "Auto (GPS)" and dimming after sunset; coarse position is enough. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- DLS overlay while the player is in the background. -->
@@ -82,6 +84,14 @@
             android:name=".RadioService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
+
+        <!-- Read-only station logo / slideshow picture for dashboards (same data as the public
+             now-playing broadcast, so no permission). -->
+        <provider
+            android:name=".ArtProvider"
+            android:authorities="me.ri3d.welle.art"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" />
 
         <receiver android:name=".MediaButtonReceiver" android:exported="true">
             <intent-filter>

@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -30,6 +31,9 @@ import android.widget.TextView;
 import org.omri.radio.impl.RadioServiceDabComponentImpl;
 import org.omri.radio.impl.RadioServiceDabImpl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import me.ri3d.welle.audio.AudioEngine;
@@ -60,6 +64,16 @@ public final class RadioService extends Service
     public static final String ACTION_PREV = "me.ri3d.welle.PREV";
     public static final String ACTION_PLAY = "me.ri3d.welle.PLAY";
     public static final String ACTION_PAUSE = "me.ri3d.welle.PAUSE";
+    /**
+     * Now-playing state for other apps on the head unit, e.g. OpenDashboard: a sticky broadcast,
+     * because Android 4.x has no MediaSession and a dashboard may start after the radio. Extras:
+     * source "dab"|"web", station, text (DLS or stream title), status, playing (bool),
+     * state "idle"|"loading"|"playing"|"error", index and count (1-based position in the list
+     * that next/previous step through; 0 = none), preset (1-based slot; 0 = not on a preset),
+     * art (content URI of the picture WELLE shows: slideshow if enabled and received, else the
+     * logo; empty = none, see {@link ArtProvider}) and artVersion (changes with the picture).
+     */
+    public static final String ACTION_STATE = "me.ri3d.welle.STATE";
     /** Sent when the USB tuner is plugged in and autostart is enabled. */
     public static final String ACTION_AUTOSTART = "me.ri3d.welle.AUTOSTART";
 
@@ -141,6 +155,9 @@ public final class RadioService extends Service
     private boolean foreground;
     private boolean changePosted;
     private int notedPlayState = -1;
+    private String lastState = "";
+    /** Changes whenever a new slideshow picture has been written for ArtProvider. */
+    private long slideStamp;
     private static final String[] PLAY_NAMES = {"idle", "loading", "playing", "error"};
     private boolean retried;
     private long tuneStartedMs;
@@ -204,6 +221,7 @@ public final class RadioService extends Service
         if (settings.b(Settings.SKIP_USB)) tuner.disable();
         else tuner.search();
         if (settings.b(Settings.WANT_PLAY)) play();
+        changed(); // publishes the initial state for dashboards even when nothing plays
     }
 
     @Override
@@ -258,6 +276,7 @@ public final class RadioService extends Service
             audio.unregisterMediaButtonEventReceiver(new ComponentName(this, MediaButtonReceiver.class));
         }
         stopForeground(true);
+        publishState(false);
         super.onDestroy();
     }
 
@@ -289,6 +308,7 @@ public final class RadioService extends Service
                     Diag.note("play state " + PLAY_NAMES[playState] + (source == SRC_DAB ? " (dab)" : " (web)"));
                 }
                 updateNotification();
+                publishState(true);
                 for (Listener l : new ArrayList<Listener>(listeners)) l.onRadioChanged();
             }
         });
@@ -806,11 +826,13 @@ public final class RadioService extends Service
         // Decode here, off the main thread, and no larger than the artwork panel needs.
         final Bitmap b = LogoStore.decodeBounded(image, 480);
         if (b == null) return;
+        saveSlide(image);
         main.post(new Runnable() {
             @Override
             public void run() {
                 if (from != dabAudio) return;
                 slide = b;
+                slideStamp = SystemClock.elapsedRealtime();
                 changed();
             }
         });
@@ -916,6 +938,68 @@ public final class RadioService extends Service
         try {
             ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, buildNotification());
         } catch (RuntimeException ignored) {
+        }
+    }
+
+    /** The raw slideshow picture for {@link ArtProvider}; written beside and renamed. */
+    private void saveSlide(byte[] image) {
+        File f = ArtProvider.slideFile(this);
+        File tmp = new File(f.getPath() + ".tmp");
+        try {
+            FileOutputStream out = new FileOutputStream(tmp);
+            try {
+                out.write(image);
+            } finally {
+                out.close();
+            }
+            if (!tmp.renameTo(f)) {
+                f.delete();
+                tmp.renameTo(f);
+            }
+        } catch (IOException ignored) {
+            // Dashboards then show the logo instead.
+        }
+    }
+
+    /** See {@link #ACTION_STATE}; sent only when something a dashboard shows has changed. */
+    @SuppressWarnings("deprecation") // sticky broadcasts are deprecated from API 21 but are what Android 4.x offers
+    private void publishState(boolean alive) {
+        ArrayList<Station> list = store.list(source);
+        int index = station == null ? -1 : indexOf(list, station.id);
+        int preset = station == null ? -1 : store.presetOf(station.id);
+        boolean playing = alive && wantPlay;
+        String name = station == null ? "" : station.name;
+        // Same choice as the player: slideshow picture if enabled and received, else the logo.
+        String art = "";
+        long artVersion = 0;
+        File logo = station == null ? null : app.logos.fileOf(station.id);
+        if (slide != null && settings.b(Settings.SLIDESHOW) && ArtProvider.slideFile(this).isFile()) {
+            art = ArtProvider.BASE + "slide";
+            artVersion = slideStamp;
+        } else if (logo != null) {
+            art = ArtProvider.BASE + "logo/" + Uri.encode(station.id);
+            artVersion = logo.lastModified();
+        }
+        String key = source + "|" + name + "|" + dls + "|" + status + "|" + playing + "|" + playState
+                + "|" + index + "|" + list.size() + "|" + preset + "|" + art + "|" + artVersion;
+        if (key.equals(lastState)) return;
+        lastState = key;
+        Intent i = new Intent(ACTION_STATE)
+                .putExtra("source", source == SRC_DAB ? "dab" : "web")
+                .putExtra("station", name)
+                .putExtra("text", dls)
+                .putExtra("status", status)
+                .putExtra("playing", playing)
+                .putExtra("state", PLAY_NAMES[playState])
+                .putExtra("index", index + 1)
+                .putExtra("count", list.size())
+                .putExtra("preset", preset + 1)
+                .putExtra("art", art)
+                .putExtra("artVersion", artVersion);
+        try {
+            sendStickyBroadcast(i);
+        } catch (RuntimeException ignored) {
+            // Permission missing on a modified build: dashboards simply show no state.
         }
     }
 

@@ -94,6 +94,11 @@ public final class LogoStore {
         return source(id) != NONE;
     }
 
+    /** The stored logo file, or null; the name is sanitised, so it always lies in the logo folder. */
+    public File fileOf(String id) {
+        return has(id) ? file(id) : null;
+    }
+
     /** Logo decoded to roughly maxPx, from a bounded memory cache; null if there is none. */
     public Bitmap get(String id, int maxPx) {
         if (!has(id)) return null;
